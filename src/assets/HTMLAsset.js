@@ -153,12 +153,6 @@ class HTMLAsset extends Asset {
     await posthtmlTransform.transform(this);
   }
 
-  async transform() {
-    if (this.options.minify) {
-      await htmlnanoTransform(this);
-    }
-  }
-
   generate() {
     return this.isAstDirty ? render(this.ast) : this.contents;
   }
