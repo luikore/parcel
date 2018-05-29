@@ -20,9 +20,12 @@ class SASSAsset extends Asset {
       rootDir: this.options.rootDir
     });
 
-    let opts =
-      (await this.getConfig(['.sassrc', '.sassrc.js'], {packageKey: 'sass'})) ||
-      {};
+    if (!SASSAsset.configLoaded) {
+        SASSAsset.configLoaded = true;
+        SASSAsset.config = await this.getConfig(['.sassrc', '.sassrc.js'], {packageKey: 'sass'});
+    }
+
+    let opts = Object.assign({}, SASSAsset.config);
     opts.includePaths = (opts.includePaths || []).concat(
       path.dirname(this.name)
     );
